@@ -31,25 +31,25 @@
 
         /* Define new color variables for the cool, neutral, and metallic palette */
         :root {
-            --primary-accent: #20c997; /* Vibrant Teal */
-            --primary-dark: #1e7d69;   /* Darker Teal */
-            --cta-bg: #1a5e55;         /* Even darker Teal for CTA background */
-            --text-highlight: #4de8cb; /* Lighter Teal for text accents */
+            --primary-accent: #EE00FF; /* Electric Magenta */
+            --primary-dark: #A500B8;   /* Darker Magenta */
+            --cta-bg: #4B007F;         /* Deep Purple for CTA background */
+            --text-highlight: #00FFFF; /* Aqua/Cyan for text accents */
 
             /* Converted to RGB for rgba usage */
-            --bg-darkest-rgb: 15, 23, 42;
-            --bg-dark-rgb: 30, 41, 59;
-            --cta-bg-rgb: 26, 94, 85;
-            --bg-header-footer-rgb: 31, 41, 55;
+            --bg-darkest-rgb: 0, 0, 0; /* Black for true contrast */
+            --bg-dark-rgb: 20, 0, 40; /* Very dark purple-blue */
+            --cta-bg-rgb: 75, 0, 127;
+            --bg-header-footer-rgb: 30, 0, 60;
 
-            --bg-medium: #334155;      /* Slate-700 for borders/lines */
+            --bg-medium: #330066;      /* Medium Purple for borders/lines */
 
-            --text-main: #e2e8f0;      /* Slate-200 for main text */
-            --text-secondary: #94a3b8; /* Slate-400 for secondary text and placeholders */
+            --text-main: #E0E0E0;      /* Light Gray for main text */
+            --text-secondary: #AAAAAA; /* Gray for secondary text and placeholders */
 
             /* RGB values for shadows/glows */
-            --primary-accent-rgb: 32, 201, 151;
-            --primary-dark-rgb: 30, 125, 105;
+            --primary-accent-rgb: 238, 0, 255;
+            --primary-dark-rgb: 165, 0, 184;
         }
 
         html, body {
@@ -57,6 +57,7 @@
             margin: 0;
             padding: 0;
             cursor: none; /* Hide default cursor */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
         }
 
         body {
@@ -64,58 +65,29 @@
             background-color: transparent; /* Main body background transparent to show global background */
             color: var(--text-main);
             scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
             position: relative; /* Needed for z-index of sections vs background */
         }
 
-        /* Full-page video background container */
-        #video-background-container {
+        /* NEW: Canvas for Particle Background */
+        #background-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            overflow: hidden;
-            z-index: -2; /* Place it behind the overlay and content */
-            background-color: var(--bg-darkest); /* Fallback background color */
-        }
-        #video-background-container iframe {
-            width: 100vw;
-            height: 100vh;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            min-width: 100%;
-            min-height: 100%;
-            object-fit: cover; /* Ensures the video covers the entire area */
-            /* Initial state for pop-out animation */
-            transform: translate(-50%, -50%) scale(1.1);
-            filter: blur(5px);
-            animation: videoPopOut 1.5s ease-out forwards;
+            z-index: -2; /* Place it behind content and overlay */
+            background-color: #0d1117; /* Very dark background for space effect */
         }
 
-        /* New: Video Pop-Out Animation */
-        @keyframes videoPopOut {
-            0% {
-                transform: translate(-50%, -50%) scale(1.1);
-                filter: blur(5px);
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                filter: blur(0px);
-            }
-        }
-
-        /* Global background overlay for readability */
+        /* Global background overlay for readability (adjusted for new background) */
         .global-background-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.3); /* Reduced opacity for better video visibility */
-            z-index: -1; /* Place it above the video, but behind all content */
+            background-color: rgba(0, 0, 0, 0.6); /* Higher opacity for better contrast */
+            z-index: -1; /* Place it above the new aurora background, but behind all content */
             pointer-events: none; /* Allow clicks to pass through to content */
         }
 
@@ -373,7 +345,12 @@
             50% { transform: translateY(-8px); }
         }
 
-        /* New: Social Media Icon Hover Effect */
+        /* New: Social Media Icon Hover Effect - applied to img inside a.footer-social-link */
+        .footer-social-link img {
+            transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition for initial state */
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+        }
+
         @keyframes socialGlowAndBounce {
             0% {
                 transform: scale(1) translateY(0);
@@ -381,14 +358,14 @@
             }
             50% {
                 transform: scale(1.2) translateY(-5px);
-                filter: drop-shadow(0 0 20px rgba(var(--primary-accent-rgb), 0.8)); /* Corrected from drop_shadow */
+                filter: drop-shadow(0 0 20px rgba(var(--primary-accent-rgb), 0.8));
             }
             100% {
                 transform: scale(1) translateY(0);
                 filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
             }
         }
-        .footer-social-link:hover svg {
+        .footer-social-link:hover img {
             animation: socialGlowAndBounce 0.8s ease-in-out forwards; /* Run once on hover */
         }
 
@@ -543,52 +520,9 @@
 </head>
 <body class="bg-gray-950 text-gray-100">
 
-    <!-- SVG Icon Definitions (hidden) -->
-    <svg style="display: none;">
-        <symbol id="icon-ev" viewBox="0 0 256 256">
-            <path d="M228 128a100.11 100.11 0 1 1-100-100A100.11 100.11 0 0 1 228 128ZM128 36a92 92 0 1 0 92 92A92.1 92.1 0 0 0 128 36Zm-8 100h-32a8 8 0 0 0 0 16h32a8 8 0 0 0 0-16Zm40-24a8 8 0 0 0-8-8h-32v-24a8 8 0 0 0-16 0v24h-32a8 8 0 0 0 0 16h32v24a8 8 0 0 0 16 0v-24h32a8 8 0 0 0 8-8Z"></path>
-        </symbol>
-        <symbol id="icon-muscle" viewBox="0 0 256 256">
-            <path d="M224 80v96a16 16 0 0 1-16 16H48a16 16 0 0 1-16-16V80a16 16 0 0 1 16-16h160a16 16 0 0 1 16 16ZM208 80H48v96h160ZM88 152a8 8 0 0 0-8 8v16a8 8 0 0 0 16 0v-16a8 8 0 0 0-8-8Zm80 0a8 8 0 0 0-8 8v16a8 8 0 0 0 16 0v-16a8 8 0 0 0-8-8Zm-48-56a8 8 0 0 0-8-8H96a8 8 0 0 0 0 16h8a8 8 0 0 0 8-8ZM160 88h-8a8 8 0 0 0 0 16h8a8 8 0 0 0 0-16Z"></path>
-        </symbol>
-        <symbol id="icon-american-car" viewBox="0 0 256 256">
-            <path d="M224 104a16 16 0 0 0-16 16v32a16 16 0 0 1-16 16H64a16 16 0 0 1-16-16V120a16 16 0 0 0-16-16 8 8 0 0 0 0 16 8 8 0 0 1 8 8v32a8 8 0 0 0 8 8h128a8 8 0 0 0 8-8V120a8 8 0 0 1 8-8 8 8 0 0 0 0-16ZM208 80H48V48a16 16 0 0 1 16-16h128a16 16 0 0 1 16 16ZM48 64V48h160v16ZM80 192a20 20 0 1 0 20 20A20 20 0 0 0 80 192Zm104 0a20 20 0 1 0 20 20A20 20 0 0 0 184 192ZM80 204a8 8 0 1 1 8-8A8 8 0 0 1 80 204Zm104 0a8 8 0 1 1 8-8A8 8 0 0 1 184 204Z"></path>
-        </symbol>
-        <symbol id="icon-phone" viewBox="0 0 24 24">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-3.67-3.67A19.79 19.79 0 0 1 2 4.18 2 2 0 0 1 4.18 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-        </symbol>
-        <symbol id="icon-mail" viewBox="0 0 24 24">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline>
-        </symbol>
-        <symbol id="icon-location" viewBox="0 0 24 24">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
-        </symbol>
-        <symbol id="icon-facebook" viewBox="0 0 24 24">
-            <path d="M9 19H6c-1.1 0-2-.9-2-2V7c0-1.1.9-2 2-2h3V2c0-1.1.9-2 2-2h2c1.1 0 2 .9 2 2v3h3c1.1 0 2 .9 2 2v3h-3v7c0 1.1-.9 2-2 2h-2c-1.1 0-2-.9-2-2v-7H9v7z"></path>
-        </symbol>
-        <symbol id="icon-twitter" viewBox="0 0 24 24">
-            <path d="M22 4.01c-.75.38-1.57.63-2.43.76.86-.52 1.52-1.34 1.83-2.3.96.18 1.96.13 2.92-.12-.92.55-1.92.95-3.03 1.17C18.66 4.6 17.5 4 16.2 4c-2.3 0-4.17 1.87-4.17 4.17 0 .33.04.65.1.96C7.29 9.07 4.1 7.42 2.05 4.39c-.35.6-.55 1.28-.55 2.02 0 1.45.74 2.74 1.86 3.48-.68-.02-1.32-.21-1.89-.52v.05c0 2.02 1.44 3.7 3.34 4.09-.35.1-.72.15-1.1.15-.27 0-.53-.02-.79-.08.53 1.66 2.07 2.87 3.89 2.9l-4.04.31c-3.13-.19-6.04-.6-8.91-.79C.07 20.37.5 22 2.5 22h19c1.9 0 2.4-1.63 2.5-3.01-.01-.01-.01-.01-.01-.01-.02-.27-.06-.55-.12-.82-.07-.3-.15-.59-.25-.88.65-.62 1.05-1.4 1.05-2.28 0-.8-.28-1.55-.77-2.12z"></path>
-        </symbol>
-        <symbol id="icon-instagram" viewBox="0 0 24 24">
-            <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.4-2.6 6-5.8 6H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 4a2 2 0 00-2 2v8.4a2 2 0 002 2h8.4a2 2 0 002-2V7.8a2 2 0 00-2-2H7.6zm9.6 0A2.4 2.4 0 0116.2 2H18.8c.6 0 1.2.6 1.2 1.2v2.6a2.4 2.4 0 01-2.4 2.4h-2.6a2.4 2.4 0 01-2.4-2.4V3.2c0-.6.6-1.2 1.2-1.2h2.6zM12 9a3 3 0 100 6 3 3 0 000-6zm0 2a1 1 0 110 2 1 1 0 010-2z"></path>
-        </symbol>
-        <symbol id="icon-linkedin" viewBox="0 0 24 24">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
-        <symbol id="icon-whatsapp" viewBox="0 0 24 24">
-            <path d="M12.04 2C7.34 2 3.56 5.78 3.56 10.48c0 1.43.37 2.8.99 4.01L2 22l7.14-1.84c1.18.66 2.52 1.04 3.44 1.04 4.71 0 8.49-3.78 8.49-8.49S16.75 2 12.04 2zm3.39 12.88c-.17.29-.98.79-1.37.83-.39.04-.79.02-1.12-.08-.3-.1-.65-.21-1.25-.56-.6-.35-1.42-.87-2.06-1.5-.64-.64-1.07-1.42-1.2-1.64-.13-.23-.03-.34.07-.45.09-.1.2-.17.3-.29.1-.12.17-.22.25-.34.08-.12.04-.23-.02-.34-.06-.1-.39-.93-.53-1.27-.14-.35-.29-.29-.42-.29-.12 0-.27-.02-.42-.02-.15 0-.39.05-.59.25-.21.2-.8 1.04-.8 2.53 0 1.49.83 2.93.94 3.12.11.2 1.62 2.47 3.94 3.47 2.32 1 2.32.67 2.74.63.42-.04 1.08-.44 1.23-.88.15-.44.15-.81.1-.9L15.43 12.9c-.05-.09-.16-.14-.34-.05z"></path>
-        </symbol>
-    </svg>
+    <!-- NEW: Canvas for Particle Background -->
+    <canvas id="background-canvas"></canvas>
 
-    <!-- Video Background Container -->
-    <div id="video-background-container">
-        <!-- YouTube video embedded here -->
-        <iframe
-            src="https://www.youtube.com/embed/sgZY4KTOemI?autoplay=1&mute=1&loop=1&playlist=sgZY4KTOemI&controls=0&showinfo=0&autohide=1&modestbranding=1&playsinline=1&enablejsapi=1"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen>
-        </iframe>
-    </div>
     <!-- Global Background Overlay -->
     <div class="global-background-overlay"></div>
 
@@ -814,10 +748,18 @@
         <div class="container mx-auto px-6">
             <p>&copy; <span id="current-year"></span> Malti Ecofix. All rights reserved.</p>
             <div class="flex justify-center space-x-8 mt-6">
-                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link"><svg class="w-6 h-6" fill="currentColor"><use xlink:href="#icon-facebook"></use></svg></a>
-                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link"><svg class="w-6 h-6" fill="currentColor"><use xlink:href="#icon-twitter"></use></svg></a>
-                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link"><svg class="w-6 h-6" fill="currentColor"><use xlink:href="#icon-instagram"></use></svg></a>
-                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link"><svg class="w-6 h-6" fill="currentColor"><use xlink:href="#icon-linkedin"></use></svg></a>
+                <!-- X (Twitter) Icon -->
+                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link">
+                    <img src="https://w7.pngwing.com/pngs/676/1/png-transparent-x-icon-ex-twitter-tech-companies-social-media.png" alt="X (Twitter)" class="w-6 h-6">
+                </a>
+                <!-- Instagram Icon -->
+                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link">
+                    <img src="https://img.freepik.com/premium-vector/instagram-vector-logo-icon-social-media-logotype_901408-392.jpg?semt=ais_hybrid&w=740&q=80" alt="Instagram" class="w-6 h-6 rounded-full">
+                </a>
+                <!-- Facebook Icon -->
+                <a href="#" class="hover:text-white transition duration-300 transform hover:scale-125 footer-social-link">
+                    <img src="https://i.pinimg.com/736x/4a/4c/22/4a4c224a0c6667178bebdfa3b6bdb92b.jpg" alt="Facebook" class="w-6 h-6 rounded-full">
+                </a>
             </div>
         </div>
     </footer>
@@ -1028,6 +970,92 @@
             });
         });
 
+        // --- Particle Background Animation Logic ---
+        let canvas, ctx, particles;
+        const numParticles = 1500; // Increased particle count for denser effect
+        const maxSpeed = 1.0; // Increased max speed for more dynamic motion
+        const particleBaseColor = [238, 0, 255]; // Base color for particles (Magenta RGB)
+        const particleAltColor = [0, 255, 255]; // Alternative color for particles (Aqua RGB)
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.z = Math.random() * canvas.width; // Z depth for perspective
+                this.radius = 0.5 + (this.z / canvas.width) * 2.5; // Larger when further initially, more variance
+                this.speed = (0.1 + Math.random() * maxSpeed) * (this.z / canvas.width); // Faster when further initially
+
+                // Interpolate between two colors based on Z depth
+                const ratio = this.z / canvas.width;
+                const r = Math.round(particleBaseColor[0] * (1 - ratio) + particleAltColor[0] * ratio);
+                const g = Math.round(particleBaseColor[1] * (1 - ratio) + particleAltColor[1] * ratio);
+                const b = Math.round(particleBaseColor[2] * (1 - ratio) + particleAltColor[2] * ratio);
+                this.color = `rgba(${r}, ${g}, ${b}, 0.8)`; // Dynamic color based on depth
+            }
+
+            update() {
+                this.z -= this.speed; // Move towards the viewer
+                if (this.z <= 0) { // If particle passes viewer, reset it
+                    this.reset();
+                    this.z = canvas.width; // Reset z to max width
+                }
+
+                // Calculate perspective scaled position and size
+                const perspective = canvas.width / this.z;
+                this.scaledX = (this.x - canvas.width / 2) * perspective + canvas.width / 2;
+                this.scaledY = (this.y - canvas.height / 2) * perspective + canvas.height / 2;
+                this.scaledRadius = this.radius * perspective;
+
+                // Make sure particles don't disappear completely when too far
+                if (this.scaledRadius < 0.1) {
+                    this.reset(); // Reset if too small to be visible
+                    this.z = canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.scaledX, this.scaledY, this.scaledRadius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            canvas = document.getElementById('background-canvas');
+            ctx = canvas.getContext('2d');
+            resizeCanvas(); // Set initial size
+            
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // When resizing, particles positions might become weird, so re-initialize them
+            if (particles) {
+                particles.forEach(p => p.reset());
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            // Instead of clearRect, draw a semi-transparent rectangle to create trails
+            ctx.fillStyle = 'rgba(13, 17, 23, 0.2)'; // More transparent for longer trails
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+        }
 
         // --- Initialize on Page Load ---
         window.onload = function() {
@@ -1065,6 +1093,13 @@
                     window.open(buttonHref, '_blank');
                 }, 1500); // Match animation duration
             });
+
+            // Initialize and start particle animation
+            initParticles();
+            animateParticles();
+
+            // Listen for window resize to adjust canvas
+            window.addEventListener('resize', resizeCanvas);
         };
     </script>
 </body>
